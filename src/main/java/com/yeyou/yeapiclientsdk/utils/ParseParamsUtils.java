@@ -27,8 +27,8 @@ public class ParseParamsUtils {
         //存放参数类型和值的列表
         ArrayList<Pair<Class<?>,String>> paramsList = new ArrayList<>(paramJsons.length);
         //正则表达式匹配
-        Pattern patternType= Pattern.compile("^\\{\"type\":\".*\",");
-        Pattern patternValue = Pattern.compile("\"value\":.*\"}$");
+        Pattern patternType= Pattern.compile("^\\{\"type\":\".*?\",");
+        Pattern patternValue = Pattern.compile("\"value\":.*?\"}$");
 
         for (String paramJson : paramJsons) {
             Matcher matcherType = patternType.matcher(paramJson);

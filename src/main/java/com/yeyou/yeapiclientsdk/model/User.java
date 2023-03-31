@@ -7,8 +7,13 @@ import lombok.ToString;
 @ToString
 public class User {
     String name;
-    public User(String name) {
+    long age;
+    Pet pet;
+
+    public User(String name, long age, Pet pet) {
         this.name = name;
+        this.age = age;
+        this.pet = pet;
     }
 
     public User() {

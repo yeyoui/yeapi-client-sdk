@@ -13,19 +13,7 @@ import javax.annotation.Resource;
 @Slf4j
 class YeapiClientSdkApplicationTests {
     @Resource
-    private YeApiClient yeApiClient;
-
-    @Test
-    void contextLoads() {
-        YeApiClient yeApiClient = new YeApiClient("yeyoui","123456");
-        String yeyoui1 = yeApiClient.getNameByGet("yeyoui1");
-        String yeyoui2 = yeApiClient.getNameByPost("yeyoui2");
-        String yeyoui3 = yeApiClient.getUserByPost(new User("yeyoui3"));
-
-        System.out.println(yeyoui1);
-        System.out.println(yeyoui2);
-        System.out.println(yeyoui3);
-    }
+    private YeApiClient yeApiClient=new YeApiClient("123","123");
 
     @Test
     void testReflectionInvokeMethod() throws SdkInvokeException {
@@ -49,8 +37,8 @@ class YeapiClientSdkApplicationTests {
         System.out.println((1+num)+" is int");
 
         //返回User
-        String s4 = "[{\"type\":\"User\",\"value\":\"lhy123212\"}]";
-        User user = (User) CustomizeInvokeUtils.invokeYeApiClientMethod(yeApiClient, methodRetUser, s4);
+        String s4 = "[{\"type\":\"User\",\"value\":\"{\"name\":\"lhy123123\",\"age\":123,\"pet\":{\"name\":\"hhh\"}}\"}]";
+        Object user =  CustomizeInvokeUtils.invokeYeApiClientMethod(yeApiClient, methodRetUser, s4);
         System.out.println(user);
     }
 

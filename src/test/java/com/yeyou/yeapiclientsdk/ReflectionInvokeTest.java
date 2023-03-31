@@ -3,7 +3,10 @@ package com.yeyou.yeapiclientsdk;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.google.gson.Gson;
 import com.yeyou.yeapiclientsdk.exception.SdkInvokeException;
+import com.yeyou.yeapiclientsdk.model.Pet;
+import com.yeyou.yeapiclientsdk.model.User;
 import com.yeyou.yeapiclientsdk.utils.ParseParamsUtils;
 import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
@@ -29,5 +32,14 @@ public class ReflectionInvokeTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("Content-Type","application/json");
         System.out.println(HttpRequest.post("http://localhost:8081/name/name").body("lhy123").addHeaders(hashMap).execute().body());
+    }
+
+    @Test
+    public void TestBeanUtils(){
+        Gson gson = new Gson();
+        User user = new User("lhy123123",123,new Pet("hhh"));
+        String json = gson.toJson(user);
+        User yeyoui = gson.fromJson(json, User.class);
+        System.out.println("json:"+json+"   Object:"+yeyoui);
     }
 }
