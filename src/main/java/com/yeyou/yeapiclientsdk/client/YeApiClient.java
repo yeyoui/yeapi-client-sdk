@@ -18,7 +18,7 @@ public class YeApiClient {
     private String accessKey;
     private String secretKey;
 
-    private final String GATEWAY_HOST="http://localhost:8081";
+    private final String GATEWAY_HOST="http://localhost:8090";
 
 
     public YeApiClient(String accessKey, String secretKey) {
@@ -33,12 +33,12 @@ public class YeApiClient {
     public String getNameByGet(String name){
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", name);
-        return sendMsgByGet(hashMap,"/name/name");
+        return sendMsgByGet(hashMap,buildHeadMap(name,"http://localhost:8081/name/name"),"/name/name");
     }
 
     public String getNameByPost(String name){
         String json = JSONUtil.toJsonStr(name);
-        Map<String, String> headerMap = buildHeadMap(json);
+        Map<String, String> headerMap = buildHeadMap(json,"http://localhost:8081/name/name");
         //设置application/json请求头
         headerMap.put("Content-Type","application/json");
         return sendMsgByPost(headerMap,json,"/name/name");
@@ -46,13 +46,13 @@ public class YeApiClient {
 
     public String getUserByPost(User user){
         String json = JSONUtil.toJsonStr(user);
-        Map<String, String> headerMap = buildHeadMap(json);
+        Map<String, String> headerMap = buildHeadMap(json,"http://localhost:8081/name/user");
         //设置application/json请求头
         headerMap.put("Content-Type","application/json");
         return sendMsgByPost(headerMap,json,"/name/user");
     }
 
-    public Map<String,String> buildHeadMap(String body){
+    public Map<String,String> buildHeadMap(String body,String url){
         HashMap<String, String> headerMap = new HashMap<>();
         //body中可能有中文字符，编码为字节码传输
         String translateBody;
@@ -74,6 +74,8 @@ public class YeApiClient {
         headerMap.put("randomNum", RandomUtil.randomNumbers(5));
         //参数6：时间戳秒（用于定时清除存储的随机数）
         headerMap.put("timestamp", String.valueOf(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)));
+        //参数7：url信息
+        headerMap.put("requestUrl", url);
         return headerMap;
     }
 
@@ -87,9 +89,9 @@ public class YeApiClient {
                 .body();
     }
 
-    public String sendMsgByGet(Map<String, Object> paramsMap,String path){
+    public String sendMsgByGet(Map<String, Object> paramsMap,Map<String, String> headerMap,String path){
         String url=GATEWAY_HOST+path;
-        return HttpUtil.get(url,paramsMap);
+        return HttpRequest.get(url).form(paramsMap).addHeaders(headerMap).execute().body();
     }
 
 

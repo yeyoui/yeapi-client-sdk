@@ -18,7 +18,7 @@ public class ParseParamsUtils {
     /**
      * 通过反射将用户传递的参数提取出来
      * @param jsonParams 传递的json example [{"type":"参数","value":"参数"}\n{...}]
-     * @return Pair列表，key为包装类，value为参数值
+     * @return Pair列表，key为类名，value为参数值
      */
     public static ArrayList<Pair<Class<?>,String>> getBasicClassTypeAndValueByJson(String jsonParams) throws SdkInvokeException {
         //提取参数信息
@@ -48,9 +48,9 @@ public class ParseParamsUtils {
     }
 
     /**
-     * 通过名称获取java基本包装类
+     * 通过名称获取类
      * @param className 类名
-     * @return 反射得到的包装类
+     * @return 反射得到的类
      */
     private static Class<?> getClassByName(String className) throws SdkInvokeException{
         try {
