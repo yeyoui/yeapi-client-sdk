@@ -19,6 +19,20 @@ public class CustomizeInvokeUtils {
     public static Object invokeYeApiClientMethod(YeApiClient yeApiClient, String methodName, String JsonParams) throws SdkInvokeException {
         //解析json参数，获取包装类和参数值
         ArrayList<Pair<Class<?>, String>> paramsPairs = ParseParamsUtils.getBasicClassTypeAndValueByJson(JsonParams);
+        if(paramsPairs==null){
+            //无参数方法
+            try {
+                //获取YeApiClientClass对象
+                Class<?> classInfo = yeApiClient.getClass();
+                //方法名
+                Method method = classInfo.getMethod(methodName);
+                return method.invoke(yeApiClient);
+            } catch (InvocationTargetException | NoSuchMethodException |
+                     IllegalAccessException e) {
+                log.error("反射调用方法时出现问题",e);
+                throw new SdkInvokeException("反射调用方法时出现问题");
+            }
+        }
         //填充类型和参数值信息
         Gson gson=new Gson();
         Class<?>[] types=new Class[paramsPairs.size()];

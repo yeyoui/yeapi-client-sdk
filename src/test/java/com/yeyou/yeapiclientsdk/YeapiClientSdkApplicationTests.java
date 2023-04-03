@@ -21,6 +21,7 @@ class YeapiClientSdkApplicationTests {
         String methodName="testInvoke";
         String methodHadRet="testInvokeRetInteger";
         String methodRetUser="testInvokeRetUser";
+        String methodNoParam="testInvokeNoParam";
 
         //无返回值
         String s1 = "[{\"type\":\"String\",\"value\":\"yeyouii\"}]";
@@ -40,6 +41,10 @@ class YeapiClientSdkApplicationTests {
         String s4 = "[{\"type\":\"User\",\"value\":\"{\"name\":\"lhy123123\",\"age\":123,\"pet\":{\"name\":\"hhh\"}}\"}]";
         Object user =  CustomizeInvokeUtils.invokeYeApiClientMethod(yeApiClient, methodRetUser, s4);
         System.out.println(user);
+
+        //无参方法
+        Object time =  CustomizeInvokeUtils.invokeYeApiClientMethod(yeApiClient, methodNoParam,null);
+        System.out.println(time);
     }
 
 }
