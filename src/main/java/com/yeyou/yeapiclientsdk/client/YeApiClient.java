@@ -33,26 +33,48 @@ public class YeApiClient {
     public String getNameByGet(String name){
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", name);
-        return sendMsgByGet(hashMap,buildHeadMap(name,"http://localhost:8081/name/name"),"/name/name");
+        return sendMsgByGet(hashMap,buildHeadMap(name,"3"),"/yeapi/name");
     }
 
     public String getNameByPost(String name){
         String json = JSONUtil.toJsonStr(name);
-        Map<String, String> headerMap = buildHeadMap(json,"http://localhost:8081/name/name");
+        Map<String, String> headerMap = buildHeadMap(json,"2");
         //设置application/json请求头
         headerMap.put("Content-Type","application/json");
-        return sendMsgByPost(headerMap,json,"/name/name");
+        return sendMsgByPost(headerMap,json,"/yeapi/name");
     }
 
     public String getUserByPost(User user){
         String json = JSONUtil.toJsonStr(user);
-        Map<String, String> headerMap = buildHeadMap(json,"http://localhost:8081/name/user");
+        Map<String, String> headerMap = buildHeadMap(json,"1");
         //设置application/json请求头
         headerMap.put("Content-Type","application/json");
-        return sendMsgByPost(headerMap,json,"/name/user");
+        return sendMsgByPost(headerMap,json,"/yeapi/user");
     }
 
-    public Map<String,String> buildHeadMap(String body,String url){
+    public String getLoveTalk(Integer num){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("num", num);
+        return sendMsgByGet(hashMap,buildHeadMap(num.toString(),"4"),"/yeapi/getLoveTalk");
+    }
+
+    public String getNowTime(){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        return sendMsgByGet(hashMap,buildHeadMap("","5"),"/yeapi/getNowTime");
+    }
+
+    public String validPwdStrength(String pwd){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("pwd",pwd);
+        return sendMsgByGet(hashMap,buildHeadMap("","6"),"/yeapi/validPwdStrength");
+    }
+
+    public String getIpAddress(){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        return sendMsgByGet(hashMap,buildHeadMap("","7"),"/yeapi/getIpAddress");
+    }
+
+    public Map<String,String> buildHeadMap(String body,String interfaceId){
         HashMap<String, String> headerMap = new HashMap<>();
         //body中可能有中文字符，编码为字节码传输
         String translateBody;
@@ -75,7 +97,7 @@ public class YeApiClient {
         //参数6：时间戳秒（用于定时清除存储的随机数）
         headerMap.put("timestamp", String.valueOf(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)));
         //参数7：url信息
-        headerMap.put("requestUrl", url);
+        headerMap.put("interfaceId", interfaceId);
         return headerMap;
     }
 
@@ -112,5 +134,9 @@ public class YeApiClient {
     @Deprecated
     public User testInvokeRetUser(User user){
         return user;
+    }
+    @Deprecated
+    public String testInvokeNoParam(){
+        return "无参方法";
     }
 }
