@@ -4,6 +4,8 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import com.yeyou.yeapiclientsdk.model.MailMsg;
+import com.yeyou.yeapiclientsdk.model.TranslateRequest;
 import com.yeyou.yeapiclientsdk.model.User;
 import com.yeyou.yeapiclientsdk.utils.SignUtils;
 
@@ -12,6 +14,7 @@ import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class YeApiClient {
@@ -53,25 +56,35 @@ public class YeApiClient {
     }
 
     public String getLoveTalk(Integer num){
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("num", num);
-        return sendMsgByGet(hashMap,buildHeadMap(num.toString(),"4"),"/yeapi/getLoveTalk");
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("num", num);
+        return sendMsgByGet(params,buildHeadMap(num.toString(),"4"),"/yeapi/getLoveTalk");
     }
 
     public String getNowTime(){
-        HashMap<String, Object> hashMap = new HashMap<>();
-        return sendMsgByGet(hashMap,buildHeadMap("","5"),"/yeapi/getNowTime");
+        HashMap<String, Object> params = new HashMap<>();
+        return sendMsgByGet(params,buildHeadMap("","5"),"/yeapi/getNowTime");
     }
 
     public String validPwdStrength(String pwd){
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("pwd",pwd);
-        return sendMsgByGet(hashMap,buildHeadMap("","6"),"/yeapi/validPwdStrength");
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("pwd",pwd);
+        return sendMsgByGet(params,buildHeadMap("","6"),"/yeapi/validPwdStrength");
     }
 
     public String getIpAddress(){
         HashMap<String, Object> hashMap = new HashMap<>();
         return sendMsgByGet(hashMap,buildHeadMap("","7"),"/yeapi/getIpAddress");
+    }
+
+    public String sendCode(MailMsg mailMsg){
+        String json=JSONUtil.toJsonStr(mailMsg);
+        return sendMsgByPost(buildHeadMap(mailMsg.getReceiver(),"8"),json,"/yeapi/sendCode");
+    }
+
+    public String translateTo(TranslateRequest translateRequest){
+        String json=JSONUtil.toJsonStr(translateRequest);
+        return sendMsgByPost(buildHeadMap(translateRequest.getQuery(),"9"),json,"/yeapi/translateTo");
     }
 
     public Map<String,String> buildHeadMap(String body,String interfaceId){
@@ -101,6 +114,12 @@ public class YeApiClient {
         return headerMap;
     }
 
+    /**
+     * @param headerMap 请求头
+     * @param body 请求头post
+     * @param path 请求路径
+     * @return 返回值
+     */
     public String sendMsgByPost(Map<String, String> headerMap,String body,String path){
         String url=GATEWAY_HOST+path;
         return HttpRequest
@@ -138,5 +157,13 @@ public class YeApiClient {
     @Deprecated
     public String testInvokeNoParam(){
         return "无参方法";
+    }
+    @Deprecated
+    public String testInvokeList(List<Integer> ls){
+        StringBuilder builder = new StringBuilder();
+        for (Integer l : ls) {
+            builder.append(l).append(" ");
+        }
+        return builder.toString();
     }
 }
