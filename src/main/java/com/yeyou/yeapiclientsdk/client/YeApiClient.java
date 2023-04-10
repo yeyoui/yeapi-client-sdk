@@ -36,55 +36,55 @@ public class YeApiClient {
     public String getNameByGet(String name){
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", name);
-        return sendMsgByGet(hashMap,buildHeadMap(name,"3"),"/yeapi/name");
+        return sendMsgByGet(hashMap,buildHeadMap(name,"8"),"/yeapi/name");
     }
 
     public String getNameByPost(String name){
         String json = JSONUtil.toJsonStr(name);
-        Map<String, String> headerMap = buildHeadMap(json,"2");
+        Map<String, String> headerMap = buildHeadMap(json,"7");
         //设置application/json请求头
         headerMap.put("Content-Type","application/json");
         return sendMsgByPost(headerMap,json,"/yeapi/name");
     }
 
-    public String getUserByPost(User user){
-        String json = JSONUtil.toJsonStr(user);
-        Map<String, String> headerMap = buildHeadMap(json,"1");
-        //设置application/json请求头
-        headerMap.put("Content-Type","application/json");
-        return sendMsgByPost(headerMap,json,"/yeapi/user");
-    }
+//    public String getUserByPost(User user){
+//        String json = JSONUtil.toJsonStr(user);
+//        Map<String, String> headerMap = buildHeadMap(json,"1");
+//        //设置application/json请求头
+//        headerMap.put("Content-Type","application/json");
+//        return sendMsgByPost(headerMap,json,"/yeapi/user");
+//    }
 
     public String getLoveTalk(Integer num){
         HashMap<String, Object> params = new HashMap<>();
         params.put("num", num);
-        return sendMsgByGet(params,buildHeadMap(num.toString(),"4"),"/yeapi/getLoveTalk");
+        return sendMsgByGet(params,buildHeadMap(num.toString(),"1"),"/yeapi/getLoveTalk");
     }
 
     public String getNowTime(){
         HashMap<String, Object> params = new HashMap<>();
-        return sendMsgByGet(params,buildHeadMap("","5"),"/yeapi/getNowTime");
+        return sendMsgByGet(params,buildHeadMap("","2"),"/yeapi/getNowTime");
     }
 
     public String validPwdStrength(String pwd){
         HashMap<String, Object> params = new HashMap<>();
         params.put("pwd",pwd);
-        return sendMsgByGet(params,buildHeadMap("","6"),"/yeapi/validPwdStrength");
+        return sendMsgByGet(params,buildHeadMap("","3"),"/yeapi/validPwdStrength");
     }
 
     public String getIpAddress(){
         HashMap<String, Object> hashMap = new HashMap<>();
-        return sendMsgByGet(hashMap,buildHeadMap("","7"),"/yeapi/getIpAddress");
+        return sendMsgByGet(hashMap,buildHeadMap("","4"),"/yeapi/getIpAddress");
     }
 
     public String sendCode(MailMsg mailMsg){
         String json=JSONUtil.toJsonStr(mailMsg);
-        return sendMsgByPost(buildHeadMap(mailMsg.getReceiver(),"8"),json,"/yeapi/sendCode");
+        return sendMsgByPost(buildHeadMap(mailMsg.getReceiver(),"5"),json,"/yeapi/sendCode");
     }
 
     public String translateTo(TranslateRequest translateRequest){
         String json=JSONUtil.toJsonStr(translateRequest);
-        return sendMsgByPost(buildHeadMap(translateRequest.getQuery(),"9"),json,"/yeapi/translateTo");
+        return sendMsgByPost(buildHeadMap(translateRequest.getQuery(),"6"),json,"/yeapi/translateTo");
     }
 
     public Map<String,String> buildHeadMap(String body,String interfaceId){
