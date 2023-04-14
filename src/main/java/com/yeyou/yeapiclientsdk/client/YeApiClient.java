@@ -20,8 +20,7 @@ import java.util.Map;
 public class YeApiClient {
     private String accessKey;
     private String secretKey;
-
-    private final String GATEWAY_HOST="http://localhost:8090";
+    private final String GATEWAY_HOST="http://yeapi.top:8090";
 
 
     public YeApiClient(String accessKey, String secretKey) {
@@ -106,7 +105,7 @@ public class YeApiClient {
         //将body转化为字节码放置到请求头传输
         headerMap.put("body", translateBody);
         //参数5：随机数（防止重放攻击）
-        headerMap.put("randomNum", RandomUtil.randomNumbers(5));
+        headerMap.put("randomNum", RandomUtil.randomNumbers(10));
         //参数6：时间戳秒（用于定时清除存储的随机数）
         headerMap.put("timestamp", String.valueOf(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)));
         //参数7：url信息

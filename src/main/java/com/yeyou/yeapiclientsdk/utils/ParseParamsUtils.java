@@ -3,6 +3,8 @@ package com.yeyou.yeapiclientsdk.utils;
 import com.yeyou.yeapiclientsdk.exception.SdkInvokeException;
 import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -21,7 +23,7 @@ public class ParseParamsUtils {
      * @return Pair列表，key为类名，value为参数值
      */
     public static ArrayList<Pair<Class<?>,String>> getBasicClassTypeAndValueByJson(String jsonParams) throws SdkInvokeException {
-        if(jsonParams==null) return null;
+        if(ObjectUtils.isEmpty(jsonParams)) return null;
         //提取参数信息
         jsonParams=jsonParams.substring(1,jsonParams.length()-1);
         String[] paramJsons = jsonParams.split("\n");
